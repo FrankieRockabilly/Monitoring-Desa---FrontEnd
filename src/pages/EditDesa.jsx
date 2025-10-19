@@ -1,8 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import SuccesMsg from './SuccesMsg'
-import ErrorMsg from './ErrorMsg'
+import SuccesMsg from "../components/SuccesMsg";
+import ErrorMsg from "../components/ErrorMsg";
 
 const EditDesa = () => {
     const{id} = useParams()

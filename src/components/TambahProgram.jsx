@@ -249,7 +249,7 @@ export default function TambahProgram() {
                 </thead>
                 <tbody>
                   {listProgram.map((value, index) => (
-                    <tr key={index} className="border-y border-gray-200 text-sm">
+                    <tr key={value.id} className="border-y border-gray-200 text-sm">
                       <td className="py-2">{index + 1}</td>
                       <td className="py-2">{value.program}</td>
                       <td className="py-2">{value.keterangan}</td>

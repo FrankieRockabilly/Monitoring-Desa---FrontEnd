@@ -12,7 +12,7 @@ const SuccesMsg = ({message}) => {
 
   return (
     <>
-      <div className='absolute top20 right-0 bg-green-700 text-white rounded-lg px-5 py-2 z-20 effect'>
+      <div className='absolute top-20 right-10 bg-[#27ed11] text-white rounded-lg px-5 py-2 z-50 effect'>
         <p>{message} </p>
       </div>
     </>
