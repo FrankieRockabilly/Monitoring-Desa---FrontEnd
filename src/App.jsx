@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material'
 import DaftarProgram from "./pages/DaftarProgram";
-import Frame from "./components/frame";
+import Frame from "./components/Frame";
 
 // PAGE
 import Home from "./pages/Home";
