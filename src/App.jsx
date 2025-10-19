@@ -5,7 +5,7 @@ import Frame from "./components/Frame";
 
 // PAGE
 import Home from "./pages/Home";
-import Desa from "./pages/desa";
+import Desa from "./pages/Desa";
 import Program from "./pages/Program";
 import Laporan from "./pages/Laporan";
 import Login from "./pages/Login";
