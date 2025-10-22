@@ -11,12 +11,12 @@ const SuccesMsg = ({message}) => {
   },[])
 
   return (
-    <>
-      <div className='absolute top-20 right-10 bg-[#27ed11] text-white rounded-lg px-5 py-2 z-50 effect'>
-        <p>{message} </p>
-      </div>
-    </>
-  )
+     <>
+        <div className="absolute top-20 right-10 bg-[#4caf50] text-white rounded-lg px-5 py-2 z-50 effect">
+           <p>{message} </p>
+        </div>
+     </>
+  );
 }
 
 export default SuccesMsg

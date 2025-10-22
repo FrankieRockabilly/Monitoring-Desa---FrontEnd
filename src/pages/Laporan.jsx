@@ -43,7 +43,7 @@ export default function Laporan() {
       },
       {
          field: "lihat",
-         headerName: "Detail",
+         headerName: "Info",
          headerAlign: "center",
          width: 250,
          renderCell: (params) => {
@@ -58,13 +58,12 @@ export default function Laporan() {
                   }}
                >
                   <Link to={`/daftarLaporan/${params.id}`}>
-                     <Button
-                        variant="contained"
-                        sx={{ backgroundColor: "#1976d2", color: "white" }}
+                     <button
+                        className="text-gray-600 underline hover:text-blue-600"
                         // onClick={() => alert(params.id)}
                      >
-                        Lihat
-                     </Button>
+                        Detail
+                     </button>
                   </Link>
                </Box>
             );

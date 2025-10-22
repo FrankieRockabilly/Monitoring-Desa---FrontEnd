@@ -27,10 +27,6 @@ const Desa = () => {
    const [kecamatan, setKecamatan] = useState("");
    const [kontak, setKontak] = useState("");
 
-   // sukses delete desa
-   const [successDeleteDesa, setSuccesDeleteDesa] = useState(false);
-   const [errorDeleteDesa, setErrorDeleteDesa] = useState(false);
-
    const [openDialog, setOpenDialog] = useState(false);
 
    // =====================
@@ -203,7 +199,13 @@ const Desa = () => {
          </Box>
 
          {/* Dialog Tambah */}
-         <Dialog open={openDialog} onClose={handleClose}>
+         <Dialog
+            open={openDialog}
+            onClose={handleClose}
+            fullWidth
+            maxWidth={false}
+            sx={{ "& .MuiDialog-paper": { width: "50vw", maxWidth: "none" } }}
+         >
             <DialogTitle className="text-2xl font-bold">
                Tambah Data Desa
             </DialogTitle>
@@ -218,7 +220,7 @@ const Desa = () => {
                         <label className="font-medium">Nama Desa</label>
                         <input
                            type="text"
-                           className="px-4 py-3 border rounded"
+                           className="px-4 py-3 border rounded outline-none shadow-sm"
                            placeholder="Masukkan Nama Desa"
                            value={namaDesa}
                            onChange={(e) => setNamaDesa(e.target.value)}
@@ -226,41 +228,41 @@ const Desa = () => {
                         />
                      </div>
 
-                     <div className="w-full flex flex-col">
+                     <div className=" flex w-full flex-col">
                         <label className="font-medium">Kecamatan</label>
                         <input
                            type="text"
-                           className="px-4 py-3 border rounded"
+                           className="px-4 py-3 border rounded outline-none shadow-sm"
                            placeholder="Masukkan Kecamatan"
                            value={kecamatan}
                            onChange={(e) => setKecamatan(e.target.value)}
                            required
                         />
                      </div>
+                  </div>
 
-                     <div className="w-full flex flex-col">
-                        <label className="font-medium">Alamat</label>
-                        <input
-                           type="text"
-                           className="px-4 py-3 border rounded"
-                           placeholder="Masukkan Alamat"
-                           value={alamat}
-                           onChange={(e) => setAlamat(e.target.value)}
-                           required
-                        />
-                     </div>
+                  <div className="w-full flex flex-col">
+                     <label className="font-medium">Alamat</label>
+                     <textarea
+                        type="text"
+                        className="px-4 py-3 border rounded outline-none shadow-sm h-[10rem]"
+                        placeholder="Masukkan Alamat"
+                        value={alamat}
+                        onChange={(e) => setAlamat(e.target.value)}
+                        required
+                     />
+                  </div>
 
-                     <div className="w-full flex flex-col">
-                        <label className="font-medium">Kontak</label>
-                        <input
-                           type="text"
-                           className="px-4 py-3 border rounded"
-                           placeholder="Masukkan Kontak"
-                           value={kontak}
-                           onChange={(e) => setKontak(e.target.value)}
-                           required
-                        />
-                     </div>
+                  <div className="w-full flex flex-col">
+                     <label className="font-medium">Kontak</label>
+                     <input
+                        type="text"
+                        className="px-4 py-3 border rounded outline-none shadow-sm"
+                        placeholder="Misal +62 88 xxxxx"
+                        value={kontak}
+                        onChange={(e) => setKontak(e.target.value)}
+                        required
+                     />
                   </div>
                   <DialogActions>
                      <Button onClick={handleClose}>Cancel</Button>
@@ -290,13 +292,14 @@ const Desa = () => {
             <DialogTitle id="alert-dialog-title">{"Hapus Desa ?"}</DialogTitle>
             <DialogContent>
                <DialogContentText id="alert-dialog-description">
-                  Yakin untuk Hapus Desa ?
+                  Yakin untuk Hapus Desa ? Ini akan menghapus semua data program
+                  dan laporan desa terkait
                </DialogContentText>
             </DialogContent>
             <DialogActions>
-               <Button onClick={() => setIsDeleteDesa(false)}>Disagree</Button>
+               <Button onClick={() => setIsDeleteDesa(false)}>Batal</Button>
                <Button onClick={handleDeleteDesa} autoFocus>
-                  Agree
+                  Hapus
                </Button>
             </DialogActions>
          </Dialog>

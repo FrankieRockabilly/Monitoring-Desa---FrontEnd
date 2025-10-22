@@ -49,13 +49,12 @@ export default function Program() {
                   }}
                >
                   <Link to={`/daftarProgram/${params.id}`}>
-                     <Button
-                        variant="contained"
+                     <button
+                        className="px-3 py-2 bg-blue-800 rounded-lg text-white text-sm"
                         sx={{ backgroundColor: "#1976d2", color: "white" }}
-                        // onClick={() => alert(params.id)}
                      >
-                        Lihat
-                     </Button>
+                        Detail
+                     </button>
                   </Link>
                </Box>
             );

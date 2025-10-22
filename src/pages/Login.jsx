@@ -44,6 +44,7 @@ const Login = () => {
          console.log(response);
          setSuccesLogin(true);
          setMessage("Berhasil Login");
+         sessionStorage.setItem("role", response.data.role);
          setTimeout(() => {
             setSuccesLogin(false);
             navigate("/beranda");
