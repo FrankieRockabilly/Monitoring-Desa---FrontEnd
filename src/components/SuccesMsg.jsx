@@ -1,22 +1,17 @@
-import React, { useEffect } from 'react'
-import gsap from 'gsap'
+import { useEffect } from "react";
+import { toast } from "sonner";
 
-const SuccesMsg = ({message}) => {
+const SuccessMsg = ({ message }) => {
+   useEffect(() => {
+      if (message) {
+         toast.success(message, {
+            description: message,
+            duration: 3000, // durasi tampil (ms)
+         });
+      }
+   }, [message]);
 
-  useEffect(()=>{
-    gsap.fromTo('.effect',
-      { x : 30, duration :1, opacity:0 ,ease :'power1'} ,
-      {x:0 , opacity:1 }
-    )
-  },[])
+   return null; // tidak perlu render elemen manual lagi
+};
 
-  return (
-     <>
-        <div className="absolute top-20 right-10 bg-[#4caf50] text-white rounded-lg px-5 py-2 z-50 effect">
-           <p>{message} </p>
-        </div>
-     </>
-  );
-}
-
-export default SuccesMsg
+export default SuccessMsg;

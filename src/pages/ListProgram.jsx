@@ -25,90 +25,94 @@ const ListProgram = () => {
 
 
     const columns = [
-  { field: 'nama_desa', headerName: 'Desa', width: 170 },
-  { field: 'jenis_kegiatan', headerName: 'jenis Program', width: 200 },
-  { field: 'program', headerName: 'Nama Program', width: 200 },
-  {
-    field: 'alokasi_dana',
-    headerName: 'Budget',
-    width: 150,
-    editable: true,
-    renderCell: (params) => {
-            const value = Number(params.value); // pastikan number
+       { field: "nama_desa", headerName: "Desa", width: 170 },
+       { field: "jenis_kegiatan", headerName: "jenis Program", width: 200 },
+       { field: "program", headerName: "Nama Program", width: 200 },
+       {
+          field: "alokasi_dana",
+          headerName: "Budget",
+          width: 150,
+          editable: true,
+          renderCell: (params) => {
+             const value = Number(params.value); // pastikan number
 
-            if (isNaN(value)) return "Rp 0";
+             if (isNaN(value)) return "Rp 0";
 
-            return (
-               <span>
-                  {new Intl.NumberFormat("id-ID", {
-                     style: "currency",
-                     currency: "IDR",
-                     minimumFractionDigits: 0,
-                  }).format(value)}
-               </span>
-            );
-         },
-  },
-  { field: 'realisasi_dana', headerName: 'Terealisasikan', width: 200,
-    renderCell: (params) => {
-            const value = Number(params.value); // pastikan number
+             return (
+                <span>
+                   {new Intl.NumberFormat("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                      minimumFractionDigits: 0,
+                   }).format(value)}
+                </span>
+             );
+          },
+       },
+       {
+          field: "realisasi_dana",
+          headerName: "Terealisasikan",
+          width: 200,
+          renderCell: (params) => {
+             const value = Number(params.value); // pastikan number
 
-            if (isNaN(value)) return "Rp 0";
+             if (isNaN(value)) return "Rp 0";
 
-            return (
-               <span>
-                  {new Intl.NumberFormat("id-ID", {
-                     style: "currency",
-                     currency: "IDR",
-                     minimumFractionDigits: 0,
-                  }).format(value)}
-               </span>
-            );
-         },
-   },
-   {
-         field: "file",
-         headerName: "Dokumen",
-         headerAlign: "center",
-         align: "center",
-         width: 100,
-         renderCell: (params) => {
-            if (!params.value) return <BlockIcon />;
+             return (
+                <span>
+                   {new Intl.NumberFormat("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                      minimumFractionDigits: 0,
+                   }).format(value)}
+                </span>
+             );
+          },
+       },
+       {
+          field: "file",
+          headerName: "Dokumen",
+          headerAlign: "center",
+          align: "center",
+          width: 100,
+          renderCell: (params) => {
+             if (!params.value) return <BlockIcon />;
 
-            return (
-               <a
-                  href={`http://localhost:3000${params.value}`}
-                  target='blank'
-                  download
-                  style={{ color: "#1976d2", textDecoration: "underline" }}
-               >
-                  Lihat
-               </a>
-            );
-         },
-      },
-  { field: 'status', headerName: 'Status', width: 200 , headerAlign :'center',
-    renderCell: (params) => (
-            <div className="w-full h-full flex flex-col items-center justify-center">
-               <div
-                  className={`px-3 py-1 rounded-full text-white text-sm ${
-                     params.row.status === "disetujui"
-                        ? "bg-green-400"
-                        : params.row.status === "pending"
-                        ? "bg-gray-400"
-                        : "bg-red-600"
-                  }`}
-               >
-                  {params.value}
-               </div>
-            </div>
-         ),
-  },
-  { field: 'keterangan', headerName: 'Deskripsi', width: 200 },
-
-
- 
-];
+             return (
+                <a
+                   href={`http://localhost:3000${params.value}`}
+                   target="blank"
+                   download
+                   style={{ color: "#1976d2", textDecoration: "underline" }}
+                >
+                   Lihat
+                </a>
+             );
+          },
+       },
+       {
+          field: "verifikasi",
+          headerName: "Status",
+          width: 200,
+          headerAlign: "center",
+          renderCell: (params) => (
+             <div className="w-full h-full flex flex-col items-center justify-center">
+                <div
+                   className={`px-3 py-1 rounded-full text-white text-sm ${
+                      params.row.verifikasi === "disetujui"
+                         ? "bg-green-400"
+                         : params.row.verifikasi === "pending"
+                         ? "bg-gray-400"
+                         : "bg-red-600"
+                   }`}
+                >
+                   {params.value}
+                </div>
+             </div>
+          ),
+       },
+       { field: "keterangan", headerName: "Deskripsi", width: 200 },
+    ];
 
   return (
     <>

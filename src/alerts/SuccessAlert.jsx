@@ -1,26 +1,17 @@
-// SweetAlert.jsx
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+import { useEffect } from "react";
+import { toast } from "sonner";
 
-const MySwal = withReactContent(Swal)
+const SuccessAlert = ({ message }) => {
+   useEffect(() => {
+      if (message) {
+         toast.success(message, {
+            description: "Berhasil Login",
+            duration: 3000, // durasi tampil (ms)
+         });
+      }
+   }, [message]);
 
-export const SuccessAlert = ({message}) => {
-  const Toast = Swal.mixin({
-  toast: true,
-  position: "top-start",
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.onmouseenter = Swal.stopTimer;
-    toast.onmouseleave = Swal.resumeTimer;
-  }
-});
-Toast.fire({
-  icon: "success",
-  title: message
-});
-}
-export default SuccessAlert
+   return null; // tidak perlu render elemen manual lagi
+};
 
-
+export default SuccessAlert;

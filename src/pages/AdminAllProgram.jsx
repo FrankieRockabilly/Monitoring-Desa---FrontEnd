@@ -1,41 +1,42 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import axios from 'axios';
-import { useEffect } from 'react';
-import { useState } from 'react';
-import { AppBar, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, List, ListItemButton, ListItemText, Toolbar, Typography } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import BlockIcon from "@mui/icons-material/Block";
+import axios from "axios";
+import { useState } from "react";
+import { useEffect } from "react";
 
+const AdminALlProgram = () => {
+   const [rows, setRows] = useState([]);
 
-export default function AdminAllProgram() {
-  const [rows, setRows]  = React.useState([])
-  const [isOpenDetailDialog, setIsOpenDetailDialog] = useState(false)
-  const openDetailDialog = ()=>{
-    setIsOpenDetailDialog(true)
-  }
+   // get all program yang ada
+   const getAllProgram = async () => {
+      try {
+         const response = await axios.get("http://localhost:3000/program", {
+            withCredentials: true,
+         });
+         setRows(response.data);
+         // console.log(response.data.length);
+      } catch (error) {
+         console.log(error);
+      }
+   };
 
-  const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+   useEffect(() => {
+      getAllProgram();
+   }, []);
 
-  const getAllDatas = async()=>{
-    try {
-      const response = await axios.get('http://localhost:3000/program',  {withCredentials : true})
-      console.log(response);
-      setRows(response.data)
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  useEffect(()=>{
-    getAllDatas()
-  },[])
-
-  const columns = [
-    { field: 'jenis_kegiatan', headerName: 'Jenis Kegiatan', width: 200 },
-    { field: 'alokasi_dana', headerName: 'Alokasi Dana', width: 200 ,
-        renderCell: (params) => {
+   const columns = [
+      { field: "nama_desa", headerName: "Desa", width: 170 },
+      { field: "jenis_kegiatan", headerName: "jenis Program", width: 200 },
+      { field: "program", headerName: "Nama Program", width: 200 },
+      { field: "tanggal", headerName: "Tanggal", width: 200 },
+      {
+         field: "alokasi_dana",
+         headerName: "Budget",
+         width: 150,
+         editable: true,
+         renderCell: (params) => {
             const value = Number(params.value); // pastikan number
 
             if (isNaN(value)) return "Rp 0";
@@ -50,66 +51,108 @@ export default function AdminAllProgram() {
                </span>
             );
          },
-    },
-    { field: 'tanggal', headerName: 'tanggal dibuat', width: 200 },
-    { field: 'nama_desa', headerName: 'Nama Desa', width: 200 },
-    { field: 'detail', headerName: 'Detail', width: 200,align : 'center',headerAlign :'center',
-      renderCell : (params) =>{
-        return (
-          <div>
-            <button onClick={openDetailDialog}>Details</button>
-          </div>
-        )
-      }
-     },
-  
-  ];
+      },
+      {
+         field: "realisasi_dana",
+         headerName: "Terealisasikan",
+         width: 200,
+         renderCell: (params) => {
+            const value = Number(params.value); // pastikan number
 
+            if (isNaN(value)) return "Rp 0";
 
-  return (
-    <Box sx={{ height: 400, width: '100%' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
-            },
-          },
-        }}
-        pageSizeOptions={[5]}
-        checkboxSelection
-        disableRowSelectionOnClick
-      />
+            return (
+               <span>
+                  {new Intl.NumberFormat("id-ID", {
+                     style: "currency",
+                     currency: "IDR",
+                     minimumFractionDigits: 0,
+                  }).format(value)}
+               </span>
+            );
+         },
+      },
+      // {
+      //    field: "file",
+      //    headerName: "Dokumen",
+      //    headerAlign: "center",
+      //    align: "center",
+      //    width: 100,
+      //    renderCell: (params) => {
+      //       if (!params.value) return <BlockIcon />;
 
+      //       return (
+      //          <a
+      //             href={`http://localhost:3000${params.value}`}
+      //             target="blank"
+      //             download
+      //             style={{ color: "#1976d2", textDecoration: "underline" }}
+      //          >
+      //             Lihat
+      //          </a>
+      //       );
+      //    },
+      // },
+      {
+         field: "verifikasi",
+         headerName: "Status",
+         width: 200,
+         headerAlign: "center",
+         renderCell: (params) => (
+            <div className="w-full h-full flex flex-col items-center justify-center">
+               <div
+                  className={`px-3 py-1 rounded-full text-white text-sm ${
+                     params.row.verifikasi === "disetujui"
+                        ? "bg-green-400"
+                        : params.row.verifikasi === "pending"
+                        ? "bg-gray-400"
+                        : "bg-red-600"
+                  }`}
+               >
+                  {params.value}
+               </div>
+            </div>
+         ),
+      },
+      // { field: "keterangan", headerName: "Deskripsi", width: 200 },
+   ];
 
-      
+   return (
+      <>
+         <div className="flex flex-col justify-center items-center w-full border rounded-xl shadow-xl p-10 bg-white">
+            <div className="w-full flex flex-col justify-start items-start gap-10 mb-5">
+               <div className="w-full flex flex-col justify-start items-start gap-2">
+                  <h1 className="font-bold text-2xl">List Program Desa</h1>
+                  <p>View and manage all your submitted programs</p>
+               </div>
+               <div className="w-full ">
+                  <input
+                     type="text"
+                     className="border border-gray-300 outline-none w-full px-5 py-3  rounded-lg"
+                     placeholder="Search"
+                  />
+               </div>
+            </div>
 
-      <Dialog
-        open={isOpenDetailDialog}
-        // onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous
-            location data to Google, even when no apps are running.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={()=>setIsOpenDetailDialog(false)}>Disagree</Button>
-          <Button > autoFocus
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Box>
+            <Box sx={{ height: 800, width: "100%" }}>
+               <DataGrid
+                  rows={rows}
+                  columns={columns}
+                  initialState={{
+                     pagination: {
+                        paginationModel: {
+                           pageSize: 20,
+                        },
+                     },
+                  }}
+                  pageSizeOptions={[5]}
+                  checkboxSelection
+                  disableRowSelectionOnClick
+               />
+            </Box>
+         </div>
+      </>
+   );
+};
 
-
-  );
-}
+export default AdminALlProgram;

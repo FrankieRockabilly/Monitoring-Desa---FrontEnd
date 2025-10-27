@@ -20,17 +20,15 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import RoofingRoundedIcon from '@mui/icons-material/RoofingRounded';
 import InventoryRoundedIcon from '@mui/icons-material/InventoryRounded';
 import ReceiptLongRoundedIcon from '@mui/icons-material/ReceiptLongRounded';
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import HourglassBottomTwoToneIcon from "@mui/icons-material/HourglassBottomTwoTone";
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import NoteIcon from "@mui/icons-material/Note";
 
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import { Link, Outlet, useLocation } from 'react-router-dom';
-import {
-   ExpandLess,
-   ExpandMore,
-   Logout,
-   PersonAdd,
-   Settings,
-} from "@mui/icons-material";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import { ExpandLess, ExpandMore, Logout, Settings } from "@mui/icons-material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Avatar, Collapse, Menu, MenuItem, Tooltip } from "@mui/material";
 import { useState } from "react";
@@ -40,7 +38,7 @@ import axios from "axios";
 
 import SuccesMsg from "./SuccesMsg";
 
-const drawerWidth = 320;
+const drawerWidth = 300;
 
 const openedMixin = (theme) => ({
    width: drawerWidth,
@@ -85,6 +83,7 @@ const AppBar = styled(MuiAppBar, {
          props: ({ open }) => open,
          style: {
             marginLeft: drawerWidth,
+            backgroundColor: "#333f4f",
             width: `calc(100% - ${drawerWidth}px)`,
             transition: theme.transitions.create(["width", "margin"], {
                easing: theme.transitions.easing.sharp,
@@ -128,6 +127,7 @@ export default function Frame() {
    const [open, setOpen] = React.useState(true);
    const location = useLocation();
    const [laporan, setLaporan] = React.useState(false);
+   const [program, setProgram] = React.useState(false);
 
    // ==============
    // state logout berhasil
@@ -146,6 +146,9 @@ export default function Frame() {
 
    const handleClick = () => {
       setLaporan(!laporan);
+   };
+   const handleClickProgram = () => {
+      setProgram(!program);
    };
 
    const handleDrawerOpen = () => {
@@ -321,182 +324,342 @@ export default function Frame() {
                </IconButton>
             </DrawerHeader>
             <Divider />
-            <List>
-               {getRole === "user" && (
-                  <>
-                     <Link to={"/beranda"}>
-                        <ListItem disablePadding>
-                           <ListItemButton
-                              sx={{
-                                 color: `${
-                                    location.pathname === "/beranda"
-                                       ? "blue"
-                                       : "black"
-                                 }`,
-                                 backgroundColor: `${
-                                    location.pathname === "/beranda"
-                                       ? "#dbdbdb"
-                                       : ""
-                                 }`,
-                              }}
-                           >
-                              <ListItemIcon>
-                                 <HomeRoundedIcon />
-                              </ListItemIcon>
-                              <Typography sx={{ fontSize: "15px" }}>
-                                 Beranda
-                              </Typography>
-                           </ListItemButton>
-                        </ListItem>
-                     </Link>
-                     <Divider />
-
-                     <Link to={"/desa"}>
-                        <ListItem disablePadding>
-                           <ListItemButton
-                              sx={{
-                                 color: `${
-                                    location.pathname === "/desa"
-                                       ? "blue"
-                                       : "black"
-                                 }`,
-                                 backgroundColor: `${
-                                    location.pathname === "/desa"
-                                       ? "#dbdbdb"
-                                       : ""
-                                 }`,
-                              }}
-                           >
-                              <ListItemIcon>
-                                 <RoofingRoundedIcon />
-                              </ListItemIcon>
-                              <Typography sx={{ fontSize: "15px" }}>
-                                 Desa
-                              </Typography>
-                           </ListItemButton>
-                        </ListItem>
-                     </Link>
-
-                     <Link to={"/addProggram"}>
-                        <ListItem disablePadding>
-                           <ListItemButton
-                              sx={{
-                                 color: `${
-                                    location.pathname === "/addProggram"
-                                       ? "blue"
-                                       : "black"
-                                 }`,
-                                 backgroundColor: `${
-                                    location.pathname === "/addProggram"
-                                       ? "#dbdbdb"
-                                       : ""
-                                 }`,
-                              }}
-                           >
-                              <ListItemIcon>
-                                 <AddCircleOutlineIcon />
-                              </ListItemIcon>
-                              <Typography sx={{ fontSize: "15px" }}>
-                                 Tambah Program
-                              </Typography>
-                           </ListItemButton>
-                        </ListItem>
-                     </Link>
-
-                     <Link to={"/listProgram"}>
-                        <ListItem disablePadding>
-                           <ListItemButton
-                              sx={{
-                                 color: `${
-                                    location.pathname === "/listProgram"
-                                       ? "blue"
-                                       : "black"
-                                 }`,
-                                 backgroundColor: `${
-                                    location.pathname === "/listProgram"
-                                       ? "#dbdbdb"
-                                       : ""
-                                 }`,
-                              }}
-                           >
-                              <ListItemIcon>
-                                 <InventoryRoundedIcon />
-                              </ListItemIcon>
-                              <Typography sx={{ fontSize: "15px" }}>
-                                 List Program
-                              </Typography>
-                           </ListItemButton>
-                        </ListItem>
-                     </Link>
-                  </>
-               )}
-
-               {getRole == "admin" && (
-                  <>
-                     <ListItemButton onClick={handleClick}>
-                        <ListItemIcon>
-                           <ReceiptLongRoundedIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Laporans" />
-                        {laporan ? <ExpandLess /> : <ExpandMore />}
-                     </ListItemButton>
-                     <Collapse in={laporan} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                           <Link to={"/laporan"}>
+            <div className="flex flex-col justify-between items-start h-full">
+               <List>
+                  {getRole === "user" && (
+                     <>
+                        <Link to={"/beranda"}>
+                           <ListItem disablePadding>
                               <ListItemButton
                                  sx={{
                                     color: `${
-                                       location.pathname === "/laporan"
+                                       location.pathname === "/beranda"
                                           ? "blue"
                                           : "black"
                                     }`,
-                                    pl: 4,
                                     backgroundColor: `${
-                                       location.pathname === "/laporan"
+                                       location.pathname === "/beranda"
                                           ? "#dbdbdb"
                                           : ""
                                     }`,
                                  }}
                               >
                                  <ListItemIcon>
-                                    <ReceiptLongRoundedIcon />
+                                    <HomeRoundedIcon />
                                  </ListItemIcon>
                                  <Typography sx={{ fontSize: "15px" }}>
-                                    Laporan
+                                    Beranda
                                  </Typography>
                               </ListItemButton>
-                           </Link>
-                           <Link to={"/adminAllProgram"}>
+                           </ListItem>
+                        </Link>
+                        <Divider />
+
+                        <Link to={"/desa"}>
+                           <ListItem disablePadding>
                               <ListItemButton
                                  sx={{
                                     color: `${
-                                       location.pathname === "/adminAllProgram"
+                                       location.pathname === "/desa"
                                           ? "blue"
                                           : "black"
                                     }`,
-                                    pl: 4,
                                     backgroundColor: `${
-                                       location.pathname === "/adminAllProgram"
+                                       location.pathname === "/desa"
                                           ? "#dbdbdb"
                                           : ""
                                     }`,
                                  }}
                               >
                                  <ListItemIcon>
-                                    <ReceiptLongRoundedIcon />
+                                    <RoofingRoundedIcon />
                                  </ListItemIcon>
                                  <Typography sx={{ fontSize: "15px" }}>
-                                    Persetujuan
+                                    Desa
                                  </Typography>
                               </ListItemButton>
-                           </Link>
-                        </List>
-                     </Collapse>
-                  </>
-               )}
-            </List>
+                           </ListItem>
+                        </Link>
+
+                        <Link to={"/addProggram"}>
+                           <ListItem disablePadding>
+                              <ListItemButton
+                                 sx={{
+                                    color: `${
+                                       location.pathname === "/addProggram"
+                                          ? "blue"
+                                          : "black"
+                                    }`,
+                                    backgroundColor: `${
+                                       location.pathname === "/addProggram"
+                                          ? "#dbdbdb"
+                                          : ""
+                                    }`,
+                                 }}
+                              >
+                                 <ListItemIcon>
+                                    <AddCircleOutlineIcon />
+                                 </ListItemIcon>
+                                 <Typography sx={{ fontSize: "15px" }}>
+                                    Tambah Program
+                                 </Typography>
+                              </ListItemButton>
+                           </ListItem>
+                        </Link>
+
+                        <Link to={"/listProgram"}>
+                           <ListItem disablePadding>
+                              <ListItemButton
+                                 sx={{
+                                    color: `${
+                                       location.pathname === "/listProgram"
+                                          ? "blue"
+                                          : "black"
+                                    }`,
+                                    backgroundColor: `${
+                                       location.pathname === "/listProgram"
+                                          ? "#dbdbdb"
+                                          : ""
+                                    }`,
+                                 }}
+                              >
+                                 <ListItemIcon>
+                                    <InventoryRoundedIcon />
+                                 </ListItemIcon>
+                                 <Typography sx={{ fontSize: "15px" }}>
+                                    List Program
+                                 </Typography>
+                              </ListItemButton>
+                           </ListItem>
+                        </Link>
+
+                        <Link to={"/addLaporan"}>
+                           <ListItem disablePadding>
+                              <ListItemButton
+                                 sx={{
+                                    color: `${
+                                       location.pathname === "/addLaporan"
+                                          ? "blue"
+                                          : "black"
+                                    }`,
+                                    backgroundColor: `${
+                                       location.pathname === "/addLaporan"
+                                          ? "#dbdbdb"
+                                          : ""
+                                    }`,
+                                 }}
+                              >
+                                 <ListItemIcon>
+                                    <NoteIcon />
+                                 </ListItemIcon>
+                                 <Typography sx={{ fontSize: "15px" }}>
+                                    Tambah Laporan
+                                 </Typography>
+                              </ListItemButton>
+                           </ListItem>
+                        </Link>
+
+                        <Link to={"/laporanDikirim"}>
+                           <ListItem disablePadding>
+                              <ListItemButton
+                                 sx={{
+                                    color: `${
+                                       location.pathname === "/laporanDikirim"
+                                          ? "blue"
+                                          : "black"
+                                    }`,
+                                    backgroundColor: `${
+                                       location.pathname === "/laporanDikirim"
+                                          ? "#dbdbdb"
+                                          : ""
+                                    }`,
+                                 }}
+                              >
+                                 <ListItemIcon>
+                                    <TaskAltIcon />
+                                 </ListItemIcon>
+                                 <Typography sx={{ fontSize: "15px" }}>
+                                    Laporan dikirim
+                                 </Typography>
+                              </ListItemButton>
+                           </ListItem>
+                        </Link>
+                     </>
+                  )}
+
+                  {getRole == "admin" && (
+                     <>
+                        <Link to={"/beranda"}>
+                           <ListItem disablePadding>
+                              <ListItemButton
+                                 sx={{
+                                    color: `${
+                                       location.pathname === "/beranda"
+                                          ? "blue"
+                                          : "black"
+                                    }`,
+                                    backgroundColor: `${
+                                       location.pathname === "/beranda"
+                                          ? "#dbdbdb"
+                                          : ""
+                                    }`,
+                                 }}
+                              >
+                                 <ListItemIcon>
+                                    <HomeRoundedIcon />
+                                 </ListItemIcon>
+                                 <Typography sx={{ fontSize: "15px" }}>
+                                    Beranda
+                                 </Typography>
+                              </ListItemButton>
+                           </ListItem>
+                        </Link>
+                        <Divider />
+
+                        <ListItemButton onClick={handleClickProgram}>
+                           <ListItemIcon>
+                              <InsertDriveFileIcon />
+                           </ListItemIcon>
+                           <ListItemText primary="Program" />
+                           {program ? <ExpandLess /> : <ExpandMore />}
+                        </ListItemButton>
+                        <Collapse in={program} timeout="auto" unmountOnExit>
+                           <List component="div" disablePadding>
+                              <Link to={"/admin/allProgram"}>
+                                 <ListItemButton
+                                    sx={{
+                                       color: `${
+                                          location.pathname ===
+                                          "/admin/allProgram"
+                                             ? "blue"
+                                             : "black"
+                                       }`,
+                                       pl: 4,
+                                       backgroundColor: `${
+                                          location.pathname ===
+                                          "/admin/allProgram"
+                                             ? "#dbdbdb"
+                                             : ""
+                                       }`,
+                                    }}
+                                 >
+                                    <ListItemIcon>
+                                       <ReceiptLongRoundedIcon />
+                                    </ListItemIcon>
+                                    <Typography sx={{ fontSize: "15px" }}>
+                                       Semua Program
+                                    </Typography>
+                                 </ListItemButton>
+                              </Link>
+                              <Link to={"/admin/persetujuan"}>
+                                 <ListItemButton
+                                    sx={{
+                                       color: `${
+                                          location.pathname ===
+                                          "/admin/persetujuan"
+                                             ? "blue"
+                                             : "black"
+                                       }`,
+                                       pl: 4,
+                                       backgroundColor: `${
+                                          location.pathname ===
+                                          "/admin/persetujuan"
+                                             ? "#dbdbdb"
+                                             : ""
+                                       }`,
+                                    }}
+                                 >
+                                    <ListItemIcon>
+                                       <HourglassBottomTwoToneIcon />
+                                    </ListItemIcon>
+                                    <Typography sx={{ fontSize: "15px" }}>
+                                       Menunggu Persetujuan
+                                    </Typography>
+                                 </ListItemButton>
+                              </Link>
+                           </List>
+                        </Collapse>
+                        <ListItemButton onClick={handleClick}>
+                           <ListItemIcon>
+                              <ReceiptLongRoundedIcon />
+                           </ListItemIcon>
+                           <ListItemText primary="Laporans" />
+                           {laporan ? <ExpandLess /> : <ExpandMore />}
+                        </ListItemButton>
+                        <Collapse in={laporan} timeout="auto" unmountOnExit>
+                           <List component="div" disablePadding>
+                              <Link to={"/adminLaporan"}>
+                                 <ListItemButton
+                                    sx={{
+                                       color: `${
+                                          location.pathname === "/adminLaporan"
+                                             ? "blue"
+                                             : "black"
+                                       }`,
+                                       pl: 4,
+                                       backgroundColor: `${
+                                          location.pathname === "/adminLaporan"
+                                             ? "#dbdbdb"
+                                             : ""
+                                       }`,
+                                    }}
+                                 >
+                                    <ListItemIcon>
+                                       <ReceiptLongRoundedIcon />
+                                    </ListItemIcon>
+                                    <Typography sx={{ fontSize: "15px" }}>
+                                       Laporan
+                                    </Typography>
+                                 </ListItemButton>
+                              </Link>
+                           </List>
+                        </Collapse>
+
+                        <Link to={"/admin/analisis"}>
+                           <ListItem disablePadding>
+                              <ListItemButton
+                                 sx={{
+                                    color: `${
+                                       location.pathname === "/admin/analisis"
+                                          ? "blue"
+                                          : "black"
+                                    }`,
+                                    backgroundColor: `${
+                                       location.pathname === "/admin/analisis"
+                                          ? "#dbdbdb"
+                                          : ""
+                                    }`,
+                                 }}
+                              >
+                                 <ListItemIcon>
+                                    <HomeRoundedIcon />
+                                 </ListItemIcon>
+                                 <Typography sx={{ fontSize: "15px" }}>
+                                    Analisis
+                                 </Typography>
+                              </ListItemButton>
+                           </ListItem>
+                        </Link>
+                     </>
+                  )}
+               </List>
+
+               {/* account setting */}
+               <div className="py-5 px-3 flex justify-center items-center gap-5 w-full border-t-[1px] border-gray-200">
+                  <div>
+                     <p>Icon</p>
+                  </div>
+                  <div>
+                     <p>{name} </p>
+                     <p> </p>
+                  </div>
+               </div>
+            </div>
          </Drawer>
-         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+         <Box
+            component="main"
+            sx={{ flexGrow: 1, p: 3, backgroundColor: "#ebedf0" }}
+         >
             <DrawerHeader />
             <Outlet />
          </Box>

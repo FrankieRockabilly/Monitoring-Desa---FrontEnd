@@ -7,13 +7,18 @@ import Frame from "./components/Frame";
 import Home from "./pages/Home";
 import Desa from "./pages/Desa";
 // import Program from "./pages/Program";
-import Laporan from "./pages/Laporan";
+// import Laporan from "./pages/Laporan";
 import Login from "./pages/Login";
 import EditDesa from "./pages/EditDesa";
 import DaftarLaporan from "./pages/DaftarLaporan";
 import AdminAllProgram from "./pages/AdminAllProgram";
 import TambahProgram from "./pages/TambahProgram";
 import ListProgram from "./pages/ListProgram";
+import AdminPersetujuan from "./pages/AdminPersetujuan";
+import AdminAnalisis from "./pages/AdminAnalisis";
+import TambahLaporan from "./pages/TambahLaporan";
+import AdminLaporan from "./pages/AdminLaporan";
+import LaporanDikirim from "./pages/LaporanDikirim";
 
 const App = () => {
    const theme = createTheme({
@@ -34,22 +39,24 @@ const App = () => {
                   <Route path="/beranda" element={<Home />} />
                   <Route path="/desa" element={<Desa />} />
                   <Route path="/editDesa/:id" element={<EditDesa />} />
-                  {/* <Route path="/program" element={<Program />} />
-                  <Route
-                     path="/daftarProgram/:idDesa"
-                     element={<DaftarProgram />}
-                  /> */}
                   <Route path="/addProggram" element={<TambahProgram />} />
+                  <Route path="/addLaporan" element={<TambahLaporan />} />
+                  <Route path="/laporanDikirim" element={<LaporanDikirim />} />
                   <Route path="/listProgram" element={<ListProgram />} />
-                  <Route path="/laporan" element={<Laporan />} />
+                  <Route path="/adminLaporan" element={<AdminLaporan />} />
                   <Route
-                     path="/adminAllProgram"
+                     path="/admin/allProgram"
                      element={<AdminAllProgram />}
+                  />
+                  <Route
+                     path="/admin/persetujuan"
+                     element={<AdminPersetujuan />}
                   />
                   <Route
                      path="/daftarLaporan/:idDesa"
                      element={<DaftarLaporan />}
                   />
+                  <Route path="/admin/analisis" element={<AdminAnalisis />} />
                </Route>
             </Routes>
          </BrowserRouter>

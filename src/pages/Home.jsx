@@ -6,30 +6,57 @@ import PhonelinkEraseIcon from "@mui/icons-material/PhonelinkErase";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 import axios from "axios";
 
+// icons
+import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import { Link } from "react-router-dom";
+
+
+
 const Home = () => {
+
+   const role = sessionStorage.getItem("role");
+
    const [fourPrograms, setFourPrograms] = useState([]);
    const [programCount, setProgramCount] = useState(0);
    const [programPending, setProgramPending] = useState(0);
    const [programDisetujui, setprogramDisetujui] = useState(0);
    const [programDitolak, setProgramDitolak] = useState(0);
+   const [totalDana, setTotalDana] = useState(0);
 
-   const getRecentProgram = async () => {
+   const getProgram = async () => {
       try {
          const response = await axios.get("http://localhost:3000/program", {
             withCredentials: true,
          });
+
+         // ======
+         // ======
+         const disetujuiPrograms = response.data.filter(
+            (item) => item.verifikasi === "disetujui"
+         );
+
+         // Hitung total alokasi dana hanya untuk program yang disetujui
+         const totalDanaDisetujui = disetujuiPrograms.reduce((total, item) => {
+            return total + (item.alokasi_dana || 0); // pastikan tidak undefined
+         }, 0);
+         setTotalDana(totalDanaDisetujui);
+
+         // ======
+         // ======
          setFourPrograms(response.data.slice(0, 4));
          setProgramCount(response.data.length);
          setProgramPending(
-            response.data.filter((item) => item.status == "pending").length
+            response.data.filter((item) => item.verifikasi == "pending").length
          );
          setprogramDisetujui(
-            response.data.filter((item) => item.status == "disetujui").length
+            response.data.filter((item) => item.verifikasi == "disetujui")
+               .length
          );
          setProgramDitolak(
-            response.data.filter((item) => item.status == "ditolak").length
+            response.data.filter((item) => item.verifikasi == "ditolak").length
          );
-         console.log(response.data.slice(0, 4));
+         // console.log(response.data.slice(0, 4));
+         // console.log(sessionStorage.getItem("role"));
       } catch (error) {
          console.log(error);
       }
@@ -44,12 +71,12 @@ const Home = () => {
    };
 
    useEffect(() => {
-      getRecentProgram();
+      getProgram();
    }, []);
 
    return (
       <>
-         <div className="flex flex-col justify-center items-center w-full border rounded-xl shadow-xl p-10">
+         <div className="flex flex-col justify-center items-center w-full border rounded-xl shadow-xl p-10 bg-white">
             <div className="w-full flex flex-col justify-start items-start gap-10 mb-5">
                <div className="w-full flex flex-col justify-start items-start gap-5">
                   <h1 className="font-bold text-4xl">Welcome Back</h1>
@@ -57,7 +84,7 @@ const Home = () => {
                </div>
             </div>
 
-            <div className="w-full flex flex-wrap justify-between items-center ">
+            <div className="w-full flex flex-wrap justify-between items-center gap-5">
                {/* 1 */}
                <div className="p-5 shadow-md border border-gray-300 rounded-lg w-80">
                   <div className="flex flex-col justify-start items-start gap-5">
@@ -65,21 +92,24 @@ const Home = () => {
                         <FolderCopyIcon sx={{ color: "darkgreen" }} />{" "}
                      </div>
                      <p>Total Program</p>
-                     <p className="font-extrabold text-3xl"> {programCount} </p>
+                     <p className="font-extrabold text-2xl"> {programCount} </p>
                   </div>
                </div>
                {/* 1 */}
-               <div className="p-5 shadow-md border border-gray-300 rounded-lg w-80">
-                  <div className="flex flex-col justify-start items-start gap-5">
-                     <div className="p-5 rounded-md bg-orange-50">
-                        <AccessTimeIcon sx={{ color: "darkorange" }} />{" "}
+               <Link to={"/admin/persetujuan"}>
+                  <div className="p-5 shadow-md border border-gray-300 rounded-lg w-80">
+                     <div className="flex flex-col justify-start items-start gap-5">
+                        <div className="p-5 rounded-md bg-orange-50">
+                           <AccessTimeIcon sx={{ color: "darkorange" }} />{" "}
+                        </div>
+                        <p>Pending Review</p>
+                        <p className="font-extrabold text-2xl">
+                           {programPending}{" "}
+                        </p>
                      </div>
-                     <p>Pending Review</p>
-                     <p className="font-extrabold text-3xl">
-                        {programPending}{" "}
-                     </p>
                   </div>
-               </div>
+               </Link>
+
                {/* 1 */}
                <div className="p-5 shadow-md border border-gray-300 rounded-lg w-80">
                   <div className="flex flex-col justify-start items-start gap-5">
@@ -87,7 +117,7 @@ const Home = () => {
                         <CheckCircleOutlineIcon sx={{ color: "darkgreen" }} />{" "}
                      </div>
                      <p>Program Disetujui</p>
-                     <p className="font-extrabold text-3xl">
+                     <p className="font-extrabold text-2xl">
                         {programDisetujui}{" "}
                      </p>
                   </div>
@@ -99,11 +129,28 @@ const Home = () => {
                         <PhonelinkEraseIcon sx={{ color: "darkred" }} />{" "}
                      </div>
                      <p>Program Ditolak</p>
-                     <p className="font-extrabold text-3xl">
+                     <p className="font-extrabold text-2xl">
                         {[programDitolak]}{" "}
                      </p>
                   </div>
                </div>
+
+               {role == "admin" && (
+                  <div className="p-5 shadow-md border border-gray-300 rounded-lg w-80">
+                     <div className="flex flex-col justify-start items-start gap-5">
+                        <div className="p-5 rounded-md bg-red-50">
+                           <CurrencyExchangeIcon sx={{ color: "darkred" }} />{" "}
+                        </div>
+                        <p>Total Dana Dikeluarkan</p>
+                        <p className="font-extrabold text-2xl">
+                           {totalDana.toLocaleString("id-ID", {
+                              style: "currency",
+                              currency: "IDR",
+                           })}
+                        </p>
+                     </div>
+                  </div>
+               )}
             </div>
 
             {/* RECENT PRGRAMS */}
@@ -116,7 +163,7 @@ const Home = () => {
                </div>
 
                {/* daftar program */}
-               <div className="flex flex-col justify-start items-start">
+               <div className="flex flex-col justify-start items-start text-sm">
                   {fourPrograms.map((value) => {
                      return (
                         <div className="w-full flex justify-between items-start border p-5">
@@ -136,14 +183,14 @@ const Home = () => {
 
                            <div
                               className={`${
-                                 value.status === "disetujui"
+                                 value.verifikasi === "disetujui"
                                     ? "text-green-700 bg-green-100 border-2 border-green-400 px-3 py-1 text-sm rounded-md"
-                                    : value.status === "pending"
+                                    : value.verifikasi === "pending"
                                     ? "text-gray-700 bg-gray-100 border-2 border-gray-400 px-3 py-1 text-sm rounded-md"
-                                    : "text-red-500"
+                                    : "text-red-700 bg-red-100 border-2 border-red-400 px-3 py-1 text-sm rounded-md"
                               }`}
                            >
-                              {value.status}
+                              {value.verifikasi}
                            </div>
                         </div>
                      );

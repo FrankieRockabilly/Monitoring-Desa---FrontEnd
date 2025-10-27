@@ -63,7 +63,7 @@ const Login = () => {
 
    return (
       <>
-         <div className="w-full h-screen flex justify-center items-center shadow-lg p-28 relative bg-fuchsia-100">
+         <div className="w-full h-screen flex justify-center items-center shadow-lg p-28 relative">
             {/* jika sukses login */}
             {succesLogin && <SuccessAlert message={message} />}
             {errorLogin && <ErrorAlert message={message} />}

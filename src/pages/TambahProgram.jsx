@@ -33,7 +33,7 @@ const TambahProgram = () => {
       formData.append("program", program);
       formData.append("alokasiDana", alokasiDana);
       formData.append("keterangan", keterangan);
-      formData.append("status", 'pending');
+      formData.append("verifikasi", "pending");
       formData.append("tanggal", tanggal);
       formData.append("file", selectedFile);
 
