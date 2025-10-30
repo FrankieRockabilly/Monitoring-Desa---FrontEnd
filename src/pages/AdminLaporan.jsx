@@ -76,7 +76,7 @@ const AdminLaporan = () => {
 
    useEffect(() => {
       getAllLaporan();
-   });
+   }, []);
    return (
       <>
          <div className="flex flex-col justify-start items-start w-full border rounded-xl shadow-xl p-10 bg-white min-h-max">
