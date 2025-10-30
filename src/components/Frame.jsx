@@ -24,6 +24,8 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import HourglassBottomTwoToneIcon from "@mui/icons-material/HourglassBottomTwoTone";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import NoteIcon from "@mui/icons-material/Note";
+import PersonIcon from "@mui/icons-material/Person";
+import BarChartIcon from "@mui/icons-material/BarChart";
 
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -295,7 +297,7 @@ export default function Frame() {
 
                            <Divider />
 
-                           <MenuItem onClick={handleCloseProfile}>
+                           <MenuItem onClick={() => navigate("profileSetting")}>
                               <ListItemIcon>
                                  <Settings fontSize="small" />
                               </ListItemIcon>
@@ -326,35 +328,34 @@ export default function Frame() {
             <Divider />
             <div className="flex flex-col justify-between items-start h-full">
                <List>
+                  <Link to={"/beranda"}>
+                     <ListItem disablePadding>
+                        <ListItemButton
+                           sx={{
+                              color: `${
+                                 location.pathname === "/beranda"
+                                    ? "blue"
+                                    : "black"
+                              }`,
+                              backgroundColor: `${
+                                 location.pathname === "/beranda"
+                                    ? "#dbdbdb"
+                                    : ""
+                              }`,
+                           }}
+                        >
+                           <ListItemIcon>
+                              <HomeRoundedIcon />
+                           </ListItemIcon>
+                           <Typography sx={{ fontSize: "15px" }}>
+                              Beranda
+                           </Typography>
+                        </ListItemButton>
+                     </ListItem>
+                  </Link>
+                  <Divider />
                   {getRole === "user" && (
                      <>
-                        <Link to={"/beranda"}>
-                           <ListItem disablePadding>
-                              <ListItemButton
-                                 sx={{
-                                    color: `${
-                                       location.pathname === "/beranda"
-                                          ? "blue"
-                                          : "black"
-                                    }`,
-                                    backgroundColor: `${
-                                       location.pathname === "/beranda"
-                                          ? "#dbdbdb"
-                                          : ""
-                                    }`,
-                                 }}
-                              >
-                                 <ListItemIcon>
-                                    <HomeRoundedIcon />
-                                 </ListItemIcon>
-                                 <Typography sx={{ fontSize: "15px" }}>
-                                    Beranda
-                                 </Typography>
-                              </ListItemButton>
-                           </ListItem>
-                        </Link>
-                        <Divider />
-
                         <Link to={"/desa"}>
                            <ListItem disablePadding>
                               <ListItemButton
@@ -489,17 +490,97 @@ export default function Frame() {
 
                   {getRole == "admin" && (
                      <>
-                        <Link to={"/beranda"}>
+                        <Link to={"/admin/allProgram"}>
                            <ListItem disablePadding>
                               <ListItemButton
                                  sx={{
                                     color: `${
-                                       location.pathname === "/beranda"
+                                       location.pathname === "/admin/allProgram"
                                           ? "blue"
                                           : "black"
                                     }`,
                                     backgroundColor: `${
-                                       location.pathname === "/beranda"
+                                       location.pathname === "/admin/allProgram"
+                                          ? "#dbdbdb"
+                                          : ""
+                                    }`,
+                                 }}
+                              >
+                                 <ListItemIcon>
+                                    <InsertDriveFileIcon />
+                                 </ListItemIcon>
+                                 <Typography sx={{ fontSize: "15px" }}>
+                                    Semua Program
+                                 </Typography>
+                              </ListItemButton>
+                           </ListItem>
+                        </Link>
+
+                        <Link to={"/admin/persetujuan"}>
+                           <ListItem disablePadding>
+                              <ListItemButton
+                                 sx={{
+                                    color: `${
+                                       location.pathname ===
+                                       "/admin/persetujuan"
+                                          ? "blue"
+                                          : "black"
+                                    }`,
+                                    backgroundColor: `${
+                                       location.pathname ===
+                                       "/admin/persetujuan"
+                                          ? "#dbdbdb"
+                                          : ""
+                                    }`,
+                                 }}
+                              >
+                                 <ListItemIcon>
+                                    <HourglassBottomTwoToneIcon />
+                                 </ListItemIcon>
+                                 <Typography sx={{ fontSize: "15px" }}>
+                                    Menunggu Persetujuan
+                                 </Typography>
+                              </ListItemButton>
+                           </ListItem>
+                        </Link>
+
+                        <Link to={"/adminLaporan"}>
+                           <ListItem disablePadding>
+                              <ListItemButton
+                                 sx={{
+                                    color: `${
+                                       location.pathname === "/adminLaporan"
+                                          ? "blue"
+                                          : "black"
+                                    }`,
+                                    backgroundColor: `${
+                                       location.pathname === "/adminLaporan"
+                                          ? "#dbdbdb"
+                                          : ""
+                                    }`,
+                                 }}
+                              >
+                                 <ListItemIcon>
+                                    <ReceiptLongRoundedIcon />
+                                 </ListItemIcon>
+                                 <Typography sx={{ fontSize: "15px" }}>
+                                    Laporan
+                                 </Typography>
+                              </ListItemButton>
+                           </ListItem>
+                        </Link>
+
+                        <Link to={"/admin/analisis"}>
+                           <ListItem disablePadding>
+                              <ListItemButton
+                                 sx={{
+                                    color: `${
+                                       location.pathname === "/admin/analisis"
+                                          ? "blue"
+                                          : "black"
+                                    }`,
+                                    backgroundColor: `${
+                                       location.pathname === "/admin/analisis"
                                           ? "#dbdbdb"
                                           : ""
                                     }`,
@@ -509,14 +590,13 @@ export default function Frame() {
                                     <HomeRoundedIcon />
                                  </ListItemIcon>
                                  <Typography sx={{ fontSize: "15px" }}>
-                                    Beranda
+                                    Chart
                                  </Typography>
                               </ListItemButton>
                            </ListItem>
                         </Link>
-                        <Divider />
 
-                        <ListItemButton onClick={handleClickProgram}>
+                        {/* <ListItemButton onClick={handleClickProgram}>
                            <ListItemIcon>
                               <InsertDriveFileIcon />
                            </ListItemIcon>
@@ -578,8 +658,9 @@ export default function Frame() {
                                  </ListItemButton>
                               </Link>
                            </List>
-                        </Collapse>
-                        <ListItemButton onClick={handleClick}>
+                        </Collapse> */}
+
+                        {/* <ListItemButton onClick={handleClick}>
                            <ListItemIcon>
                               <ReceiptLongRoundedIcon />
                            </ListItemIcon>
@@ -613,9 +694,9 @@ export default function Frame() {
                                  </ListItemButton>
                               </Link>
                            </List>
-                        </Collapse>
+                        </Collapse> */}
 
-                        <Link to={"/admin/analisis"}>
+                        {/* <Link to={"/admin/analisis"}>
                            <ListItem disablePadding>
                               <ListItemButton
                                  sx={{
@@ -639,7 +720,7 @@ export default function Frame() {
                                  </Typography>
                               </ListItemButton>
                            </ListItem>
-                        </Link>
+                        </Link> */}
                      </>
                   )}
                </List>
@@ -647,7 +728,9 @@ export default function Frame() {
                {/* account setting */}
                <div className="py-5 px-3 flex justify-center items-center gap-5 w-full border-t-[1px] border-gray-200">
                   <div>
-                     <p>Icon</p>
+                     <span>
+                        <PersonIcon />
+                     </span>
                   </div>
                   <div>
                      <p>{name} </p>
@@ -658,7 +741,12 @@ export default function Frame() {
          </Drawer>
          <Box
             component="main"
-            sx={{ flexGrow: 1, p: 3, backgroundColor: "#ebedf0" }}
+            sx={{
+               flexGrow: 1,
+               p: 3,
+               backgroundColor: "#ebedf0",
+               minHeight: "100vh",
+            }}
          >
             <DrawerHeader />
             <Outlet />

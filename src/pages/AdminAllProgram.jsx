@@ -1,10 +1,16 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
-import BlockIcon from "@mui/icons-material/Block";
+// import BlockIcon from "@mui/icons-material/Block";
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
+import rohul from "../assets/rohul.png";
+
+import { exportProgramsToWord } from "../utils/exportWord";
+
+// icons
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 const AdminALlProgram = () => {
    const [rows, setRows] = useState([]);
@@ -121,9 +127,26 @@ const AdminALlProgram = () => {
       <>
          <div className="flex flex-col justify-center items-center w-full border rounded-xl shadow-xl p-10 bg-white">
             <div className="w-full flex flex-col justify-start items-start gap-10 mb-5">
-               <div className="w-full flex flex-col justify-start items-start gap-2">
-                  <h1 className="font-bold text-2xl">List Program Desa</h1>
-                  <p>View and manage all your submitted programs</p>
+               <div className="flex justify-between items-start w-full">
+                  <div className="w-full flex flex-col justify-start items-start gap-5">
+                     <h1 className="font-bold text-4xl">List Program Desa</h1>
+                     <p>View and manage all your submitted programs</p>
+                  </div>
+                  <button
+                     onClick={async () => {
+                        try {
+                           const response = await fetch(rohul);
+                           const logoBlob = await response.blob();
+                           await exportProgramsToWord(rows, logoBlob);
+                        } catch (error) {
+                           console.error("Gagal export Word:", error);
+                        }
+                     }}
+                     className="flex justify-center items-center gap-5 bg-sky-600 rounded-md px-4 py-2 w-max text-white hover:bg-sky-700"
+                  >
+                     <FileUploadIcon />
+                     <p>Export</p>
+                  </button>
                </div>
                <div className="w-full ">
                   <input
@@ -146,7 +169,6 @@ const AdminALlProgram = () => {
                      },
                   }}
                   pageSizeOptions={[5]}
-                  checkboxSelection
                   disableRowSelectionOnClick
                />
             </Box>

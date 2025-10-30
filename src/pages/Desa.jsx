@@ -117,8 +117,12 @@ const Desa = () => {
    };
 
    const columns = [
-      { field: "id", headerName: "id", width: 90 },
-      { field: "nama_desa", headerName: "Nama Desa", width: 300 },
+      // { field: "id", headerName: "id", width: 90 },
+      {
+         field: "nama_desa",
+         headerName: "Nama Desa",
+         width: 300,
+      },
       { field: "kecamatan", headerName: "Kecamatan", width: 300 },
       { field: "alamat", headerName: "Alamat", width: 450 },
       { field: "kontak", headerName: "Kontak", width: 180 },
@@ -161,26 +165,22 @@ const Desa = () => {
    ];
 
    return (
-      <div className="flex flex-col gap-2 relative">
-         {error && (
-            <div className="absolute top-2 right-2 px-3 py-2 bg-white rounded-md">
-               {error}
+      <div className="flex flex-col justify-start items-start w-full border rounded-xl shadow-xl p-10 bg-white">
+         <div className="w-full flex flex-col justify-start items-start gap-10 mb-5">
+            <div className="w-full flex flex-col justify-start items-start gap-5">
+               <h1 className="font-bold text-4xl">Data Desa</h1>
+               <p>Comprehensice insights into program performance </p>
             </div>
-         )}
-         <Typography
-            sx={{ fontSize: "30px", marginY: "20px", fontWeight: "light" }}
-         >
-            Data Desa
-         </Typography>
+         </div>
          <Button
-            sx={{ width: "10%" }}
+            sx={{ width: "10%", marginBottom: "20px" }}
             variant="contained"
             onClick={handleOpenDialog}
          >
             Tambah Desa
          </Button>
 
-         <Box sx={{ height: 1000, width: "100%" }}>
+         <Box sx={{ height: 500, width: "100%" }}>
             <DataGrid
                rows={rows}
                columns={columns}
@@ -193,7 +193,6 @@ const Desa = () => {
                      },
                   },
                }}
-               checkboxSelection
                disableRowSelectionOnClick
             />
          </Box>

@@ -1,9 +1,17 @@
-import React from 'react'
+import { useEffect } from "react";
+import { toast } from "sonner";
 
-const ErrorMsg = () => {
-  return (
-    <div>ErrorMsg</div>
-  )
-}
+const ErrorMsg = ({ message }) => {
+   useEffect(() => {
+      if (message) {
+         toast.error(message, {
+            description: message,
+            duration: 3000, // durasi tampil (ms)
+         });
+      }
+   }, [message]);
 
-export default ErrorMsg
+   return null; // tidak perlu render elemen manual lagi
+};
+
+export default ErrorMsg;

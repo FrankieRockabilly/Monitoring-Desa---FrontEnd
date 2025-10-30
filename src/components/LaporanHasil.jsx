@@ -44,6 +44,7 @@ const LaporanHasil = () => {
         formData.append('tanggal', tanggal )
         formData.append('keterangan', keterangan )
         formData.append('file', file )
+        formData.append("jenis", "LHP");
 
 
         try {

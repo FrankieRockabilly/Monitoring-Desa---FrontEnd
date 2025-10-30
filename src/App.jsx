@@ -19,6 +19,8 @@ import AdminAnalisis from "./pages/AdminAnalisis";
 import TambahLaporan from "./pages/TambahLaporan";
 import AdminLaporan from "./pages/AdminLaporan";
 import LaporanDikirim from "./pages/LaporanDikirim";
+import ProfileSetting from "./pages/ProfileSetting";
+import EditProgram from "./pages/EditProgram";
 
 const App = () => {
    const theme = createTheme({
@@ -40,6 +42,7 @@ const App = () => {
                   <Route path="/desa" element={<Desa />} />
                   <Route path="/editDesa/:id" element={<EditDesa />} />
                   <Route path="/addProggram" element={<TambahProgram />} />
+                  <Route path="/editProgram/:id" element={<EditProgram />} />
                   <Route path="/addLaporan" element={<TambahLaporan />} />
                   <Route path="/laporanDikirim" element={<LaporanDikirim />} />
                   <Route path="/listProgram" element={<ListProgram />} />
@@ -57,6 +60,8 @@ const App = () => {
                      element={<DaftarLaporan />}
                   />
                   <Route path="/admin/analisis" element={<AdminAnalisis />} />
+
+                  <Route path="/profileSetting" element={<ProfileSetting />} />
                </Route>
             </Routes>
          </BrowserRouter>
